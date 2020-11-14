@@ -70,7 +70,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.15" length="0.05"/>
+                <cylinder radius="0.075" length="0.05"/>
             </geometry>
         </collision>
     </link>
@@ -81,7 +81,6 @@
         <axis xyz="0.0 0.0 1"/>
         <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
     </joint>
-
     <link name="front_left_caster_link">
         <inertial>
             <origin xyz="0.0375 0.0 -0.0375" rpy="0.0 0.0 0.0"/>
@@ -130,7 +129,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.15" length="0.05"/>
+                <cylinder radius="0.075" length="0.05"/>
             </geometry>
         </collision>
     </link>
@@ -138,6 +137,37 @@
         <origin xyz="0.075 0.0 -0.075" rpy="-1.5708 0.0 0.0"/>
         <parent link="front_left_caster_link"/>
         <child link="front_left_wheel_link"/>
+        <axis xyz="0.0 0.0 1"/>
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
+    </joint>
+
+    <link name="right_wheel_link">
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="0.0"/>
+            <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+        </inertial>
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.10" length="0.02"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0.0 0.0 1.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.10" length="0.02"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="right_wheel_joint" type="continuous">
+        <origin xyz="-0.1875 -0.2875 -0.225" rpy="-1.5708 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
         <axis xyz="0.0 0.0 1"/>
         <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
     </joint>
