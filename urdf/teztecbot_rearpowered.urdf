@@ -60,7 +60,7 @@
         <visual name="">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.075" length="0.05"/>
+                <cylinder radius="0.075" length="0.02"/>
             </geometry>
             <material name="red">
                 <color rgba="1.0 0.0 0.0 1.0"/>
@@ -70,7 +70,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.075" length="0.05"/>
+                <cylinder radius="0.075" length="0.02"/>
             </geometry>
         </collision>
     </link>
@@ -119,7 +119,7 @@
         <visual name="">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.075" length="0.05"/>
+                <cylinder radius="0.075" length="0.02"/>
             </geometry>
             <material name="red">
                 <color rgba="1.0 0.0 0.0 1.0"/>
@@ -129,7 +129,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.075" length="0.05"/>
+                <cylinder radius="0.075" length="0.02"/>
             </geometry>
         </collision>
     </link>
@@ -149,7 +149,7 @@
         <visual name="">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.10" length="0.02"/>
+                <cylinder radius="0.10" length="0.05"/>
             </geometry>
             <material name="blue">
                 <color rgba="0.0 0.0 1.0 1.0"/>
@@ -159,7 +159,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.10" length="0.02"/>
+                <cylinder radius="0.10" length="0.05"/>
             </geometry>
         </collision>
     </link>
@@ -179,7 +179,7 @@
         <visual name="">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.10" length="0.02"/>
+                <cylinder radius="0.10" length="0.05"/>
             </geometry>
             <material name="blue">
                 <color rgba="0.0 0.0 1.0 1.0"/>
@@ -189,7 +189,7 @@
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <cylinder radius="0.10" length="0.02"/>
+                <cylinder radius="0.10" length="0.05"/>
             </geometry>
         </collision>
     </link>
