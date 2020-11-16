@@ -45,7 +45,7 @@
         </collision>
     </link>
     <joint name="back_right_caster_joint" type="continuous">
-        <origin xyz="-0.1375 -0.2875 -0.175" rpy="0.0 0.0 0.0"/>
+        <origin xyz="-0.1375 -0.2875 -0.175" rpy="0.0 0.0 3.14159"/>
         <parent link="base_link"/>
         <child link="back_right_caster_link"/>
         <axis xyz="0.0 0.0 1"/>
@@ -104,7 +104,7 @@
         </collision>
     </link>
     <joint name="back_left_caster_joint" type="continuous">
-        <origin xyz="-0.1375 0.2875 -0.175" rpy="0.0 0.0 0.0"/>
+        <origin xyz="-0.1375 0.2875 -0.175" rpy="0.0 0.0 3.14159"/>
         <parent link="base_link"/>
         <child link="back_left_caster_link"/>
         <axis xyz="0.0 0.0 1"/>
