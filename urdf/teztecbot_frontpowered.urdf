@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <robot name="teztecbot">
     <link name="base_link">
+        <!--
         <inertial>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <mass value="5.0"/>
             <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
+        -->
         <visual name="">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
@@ -247,6 +249,34 @@
                 filename="libgazebo_ros_joint_state_publisher.so">
             <jointName>back_right_caster_joint,back_right_wheel_joint,back_left_caster_joint,back_left_wheel_joint</jointName>
         </plugin>
-        
+    </gazebo>
+    
+    <gazebo reference="rgbd_cam_link">
+        <sensor type="ray" name="laser">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.578</min_angle>
+                        <max_angle>1.578</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>10</max>
+                    <resolution>0.1</resolution>
+                </range>
+            </ray>
+            <!--This is the laser sensor-->
+            <plugin name="laser" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>rgbd_cam_link</frameName>
+            </plugin>
+
+        </sensor>
     </gazebo>
 </robot>
