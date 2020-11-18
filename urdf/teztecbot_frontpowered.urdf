@@ -254,15 +254,15 @@
     <gazebo reference="rgbd_cam_link">
         <sensor type="ray" name="laser">
             <pose>0 0 0 0 0 0</pose>
-            <visualize>true</visualize>
+            <visualize>false</visualize>
             <update_rate>10</update_rate>
             <ray>
                 <scan>
                     <horizontal>
                         <samples>720</samples>
                         <resolution>1</resolution>
-                        <min_angle>-1.578</min_angle>
-                        <max_angle>1.578</max_angle>
+                        <min_angle>-1.2</min_angle>
+                        <max_angle>1.2</max_angle>
                     </horizontal>
                 </scan>
                 <range>
@@ -276,7 +276,7 @@
                 <topicName>/scan</topicName>
                 <frameName>rgbd_cam_link</frameName>
             </plugin>
-
         </sensor>
     </gazebo>
+
 </robot>
