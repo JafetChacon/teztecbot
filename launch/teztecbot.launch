@@ -1,6 +1,6 @@
 <launch>
     <param name="robot_description" textfile="$(find teztecbot)/urdf/teztecbot_frontpowered.urdf"/>
-    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+    <include file="$(find teztecbot)/gazebo/teztec_world.launch"/>
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
         args="-param robot_description -urdf -model teztecbot"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
