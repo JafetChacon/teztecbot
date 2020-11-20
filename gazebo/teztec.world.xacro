@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+    <world name="default" xmlns:xacro="http://www.ros.org/wiki/xacro">
+        <xacro:property name="A"        value="3" />
+        <xacro:property name="B"        value="5" />
+        <xacro:property name="C"        value="0.0" />
+        <xacro:property name="C_O"      value="0.1" />
+        <xacro:property name="C_A"      value="0.0" />
+        <xacro:property name="x_adj"    value="0.6" />
+        <xacro:property name="y_adj"    value="0.6" />
+        <xacro:property name="sphere_radius"    value="5.0" />
+        <include>
+        <uri>model://ground_plane</uri>
+        </include>
+        <include>
+        <uri>model://sun</uri>
+        </include>
+        <model name="someShape">
+            <pose>${B/2 - x_adj} ${y_adj - 3*A/2} ${C_O/2} 0 0 0</pose>
+            <link name="link">
+                <collision name="collision">
+                    <geometry>
+                        <box size="${B} ${A} ${C_O}"/>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box size="${B} ${A} ${C_O}"/>
+                    </geometry>
+                    <material>
+                        <color rgba="0.0 0.0 0.0 1.0"/>
+                    </material>
+                </visual>
+            </link>
+        </model>
+    </world>
+</sdf>
