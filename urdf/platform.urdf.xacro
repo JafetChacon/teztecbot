@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<robot name="platform" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="A"        value="3.0" />
+    <xacro:property name="B"        value="5.0" />
+    <xacro:property name="C"        value="1.0" />
+    <xacro:property name="C_O"      value="0.3" />
+    <xacro:property name="alpha"    value="${20*pi/180}" />
+    <xacro:property name="x_adj"    value="0.6" />
+    <xacro:property name="y_adj"    value="0.6" />
+    <link name="base_link">
+        <inertial>
+            <origin xyz="${B/2 - x_adj} ${y_adj - 2*A} ${C_O/2}" /> 
+            <mass value="10.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="${B/2 - x_adj} ${y_adj - 2*A} ${C_O/2}" /> 
+            <geometry>
+                <box size="${B} ${2*A} ${C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="${B/2 - x_adj} ${y_adj - 2*A} ${C_O/2}" /> 
+            <geometry>
+                <box size="${B} ${2*A} ${C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="next_level_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="levels_joint" type="fixed">
+        <origin xyz="${B/2 - x_adj} ${y_adj - 5*A/2} ${3*C_O/2}" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="next_level_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="first_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="first_ramp_joint" type="fixed">
+        <origin xyz="${B - x_adj - C/2} ${y_adj - A + 0.5*C_O/tan(alpha)} ${C_O/2}" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="first_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="second_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="second_ramp_joint" type="fixed">
+        <origin xyz="${C/2 - x_adj} ${y_adj - 2*A + 0.5*C_O/tan(alpha)} ${3*C_O/2}" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="second_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="first_ramp_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="next_level_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+    <gazebo reference="second_ramp_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+</robot>
