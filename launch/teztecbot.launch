@@ -6,7 +6,8 @@
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
         args="-param robot_description -urdf -model teztecbot"/>
     
-    <param name="ramp_description" textfile="$(find teztecbot)/urdf/platform.urdf"/>
+    <param name="ramp_description" command="$(find xacro)/xacro.py $(find teztecbot)/urdf/platform.urdf.xacro" />
+    <!-- <param name="ramp_description" textfile="$(find teztecbot)/urdf/platform.urdf"/> -->
     <node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
         args="-param ramp_description -urdf -model platform"/>
 
