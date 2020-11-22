@@ -11,6 +11,11 @@
     <node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
         args="-param ramp_description -urdf -model platform"/>
 
+    <!-- Map service-->
+    <!--
+        <node pkg="map_server" name="map_server" type="map_server" args="MAP.YAML_WITH_PATH"/>
+    -->
+
     <node pkg="rviz" type="rviz" name="rviz"/>
     <node pkg="gmapping" type="slam_gmapping" name="gmapping">
         <param name="base_frame"    value="base_link"/>
