@@ -1,4 +1,6 @@
-<launch>
+<launch >
+    <arg name="mappin" default="false"/>
+    
     <param name="robot_description" textfile="$(find teztecbot)/urdf/teztecbot_frontpowered.urdf"/>
     <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
@@ -6,27 +8,97 @@
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
         args="-param robot_description -urdf -model teztecbot"/>
     
-    <param name="ramp_description" command="$(find xacro)/xacro.py $(find teztecbot)/urdf/platform.urdf.xacro" />
-    <!-- <param name="ramp_description" textfile="$(find teztecbot)/urdf/platform.urdf"/> -->
-    <node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
-        args="-param ramp_description -urdf -model platform"/>
-
+    
+    <group unless="$(arg mappin)">
+        <param name="ramp_description" command="$(find xacro)/xacro.py $(find teztecbot)/urdf/platform.urdf.xacro" />
+        <node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
+            args="-param ramp_description -urdf -model platform"/>
     <!-- Map service-->
-    <!--
-        <node pkg="map_server" name="map_server" type="map_server" args="MAP.YAML_WITH_PATH"/>
-    -->
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find teztecbot)/map/map.yaml"/>
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_map"
+        args="0 0 0 0 0 0  /map /odom 1" />
+    </group>
+    
+    
+    <group if="$(arg mappin)">
+        <!-- Values inside platform.urdf.xacro-->
+        <arg name="A"        value="3.0" />
+        <arg name="B"        value="5.0" />
+        <arg name="C"        value="1.0" />
+        <arg name="C_O"      value="0.2" />
+        <arg name="alpha"    value="${20*pi/180}" />
+        <arg name="x_adj"    value="0.6" />
+        <arg name="y_adj"    value="0.6" />
+        <arg name="kkita" value="${eval sin(alpha)}"/>
+        <arg name="tan_alpha" value="0.363970234"/> <!-- fixed value tan(alpha)-->
+        
+        
+        <!-- Values for positioning columns-->
+        <arg name="col1_x" value="$(eval B - x_adj)"/>
+        <arg name="col1_y" value="$(eval y_adj - A + (C_O / tan_alpha))"/>
+        <arg name="col2_x" value="$(eval B - x_adj - C)"/>
+        <arg name="col2_y" value="$(eval y_adj - A + (C_O / tan_alpha))"/>
+        <arg name="col3_x" value="$(eval B - x_adj)"/>
+        <arg name="col3_y" value="$(eval y_adj - A)"/>
+        <arg name="col4_x" value="$(eval B - x_adj - C)"/>
+        <arg name="col4_y" value="$(eval y_adj - A)"/>
+        <arg name="col5_x" value="$(eval - x_adj)"/>
+        <arg name="col5_y" value="$(eval y_adj - A)"/>
+        <arg name="col6_x" value="$(eval C - x_adj)"/>
+        <arg name="col6_y" value="$(eval y_adj - 2*A + (C_O / tan_alpha))"/>
+        <arg name="col7_x" value="$(eval - x_adj)"/>
+        <arg name="col7_y" value="$(eval y_adj - 2*A + (C_O / tan_alpha))"/>
+        <arg name="col8_x" value="$(eval - x_adj + B)"/>
+        <arg name="col8_y" value="$(eval y_adj - 2*A)"/>
+        <arg name="col9_x" value="$(eval C - x_adj)"/>
+        <arg name="col9_y" value="$(eval y_adj - 2*A)"/>
+        <arg name="col10_x" value="$(eval - x_adj)"/>
+        <arg name="col10_y" value="$(eval y_adj - 2*A)"/>
+        <arg name="col11_x" value="$(eval - x_adj + B)"/>
+        <arg name="col11_y" value="$(eval y_adj - 3*A)"/>
+        <arg name="col12_x" value="$(eval - x_adj)"/>
+        <arg name="col12_y" value="$(eval y_adj - 3*A)"/>
+        <!-- Spawn the columns for map building-->
+        <param name="column" textfile="$(find teztecbot)/urdf/column.urdf"/>
+        <node name="spawn_column1" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column1 -x $(arg col1_x) -y $(arg col1_y)"/>
+        <node name="spawn_column2" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column2 -x $(arg col2_x) -y $(arg col2_y)"/>
+        <node name="spawn_column3" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column3 -x $(arg col3_x) -y $(arg col3_y)"/>
+        <node name="spawn_column4" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column4 -x $(arg col4_x) -y $(arg col4_y)"/>
+        <node name="spawn_column5" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column5 -x $(arg col5_x) -y $(arg col5_y)"/>
+        <node name="spawn_column6" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column6 -x $(arg col6_x) -y $(arg col6_y)"/>
+        <node name="spawn_column7" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column7 -x $(arg col7_x) -y $(arg col7_y)"/>
+        <node name="spawn_column8" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column8 -x $(arg col8_x) -y $(arg col8_y)"/>
+        <node name="spawn_column9" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column9 -x $(arg col9_x) -y $(arg col9_y)"/>
+        <node name="spawn_column10" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column10 -x $(arg col10_x) -y $(arg col10_y)"/>
+        <node name="spawn_column11" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column11 -x $(arg col11_x) -y $(arg col11_y)"/>
+        <node name="spawn_column12" pkg="gazebo_ros" type="spawn_model"
+            args="-param column -urdf -model column12 -x $(arg col12_x) -y $(arg col12_y)"/>
 
+        <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+            <param name="base_frame"    value="base_link"/>
+            <param name="odom_frame"    value="odom"/>
+            <param name="map_frame"     value="map"/>
+            <param name="delta"         value="0.05"/>
+            <param name="xmin"          value="-10"/>
+            <param name="ymin"          value="-10"/>
+            <param name="xmax"          value="10"/>
+            <param name="ymax"          value="10"/>
+        </node>
+    </group>
+    
     <node pkg="rviz" type="rviz" name="rviz"/>
-    <node pkg="gmapping" type="slam_gmapping" name="gmapping">
-        <param name="base_frame"    value="base_link"/>
-        <param name="odom_frame"    value="odom"/>
-        <param name="map_frame"     value="map"/>
-        <param name="delta"         value="0.05"/>
-        <param name="xmin"          value="-2"/>
-        <param name="ymin"          value="-2"/>
-        <param name="xmax"          value="10"/>
-        <param name="ymax"          value="6"/>
-    </node>
+    
     <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen"/>
     
 </launch>
