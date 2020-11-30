@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<robot name="platform" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="A"        value="3.0" />
+    <xacro:property name="B"        value="5.0" />
+    <xacro:property name="C"        value="1.0" />
+    <xacro:property name="C_O"      value="0.2" />
+    <xacro:property name="alpha"    value="${20*pi/180}" />
+    <xacro:property name="x_adj"    value="0.6" />
+    <xacro:property name="y_adj"    value="0.6" />
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 ${C_O/2}" /> 
+            <geometry>
+                <box size="${C} ${A} ${2*C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${C_O/2}" /> 
+            <geometry>
+                <box size="${C} ${A} ${2*C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="B_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="AB_joint" type="fixed">
+        <origin xyz="${-(C+B)/2} 0 0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="B_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="C_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="AC_joint" type="fixed">
+        <origin xyz="${(C+B)/2} 0 0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="C_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="D_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${2*C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${2*C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="BD_joint" type="fixed">
+        <origin xyz="0 ${-A} ${C_O/2}" rpy="0.0 0.0 0.0"/>
+        <parent link="B_link"/>
+        <child link="D_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="E_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${2*C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${B} ${A} ${2*C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="CE_joint" type="fixed">
+        <origin xyz="0 ${-A} ${C_O/2}" rpy="0.0 0.0 0.0"/>
+        <parent link="C_link"/>
+        <child link="E_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="F_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${A} ${B} ${2*C_O}" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${A} ${B} ${2*C_O}" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="CF_joint" type="fixed">
+        <origin xyz="${(A+B)/2} ${(B-A)/2} ${C_O/2}" rpy="0.0 0.0 0.0"/>
+        <parent link="C_link"/>
+        <child link="F_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+
+    
+    <link name="AC_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="AC_ramp_joint" type="fixed">
+        <origin xyz="${B} ${A/2 + 0.5*C_O/tan(alpha)} 0" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="AC_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="AB_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="AB_ramp_joint" type="fixed">
+        <origin xyz="${-B} ${A/2 + 0.5*C_O/tan(alpha)} 0" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="AB_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="BD_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="BD_ramp_joint" type="fixed">
+        <origin xyz="${(B-C)/2} ${-A/2 + 0.5*C_O/tan(alpha)} ${C_O}" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="B_link"/>
+        <child link="BD_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="CE_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" /> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="CE_ramp_joint" type="fixed">
+        <origin xyz="${-(B-C)/2} ${-A/2 + 0.5*C_O/tan(alpha)} ${C_O}" rpy="${-alpha} 0.0 0.0"/>
+        <parent link="C_link"/>
+        <child link="CE_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="CF_ramp_link">
+        <inertial>
+            <origin xyz="0 0 0" /> 
+            <mass value="5.0" />
+            <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="${-alpha} 0.0 0.0"/> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"  rpy="${-alpha} 0.0 0.0"/> 
+            <geometry>
+                <box size="${C} ${C_O/sin(alpha)} 0.01" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="CF_ramp_joint" type="fixed">
+        <origin xyz="${B/2 - 0.5*C_O/tan(alpha)} ${-(A-C)/2} ${C_O}" rpy="0.0 0.0 ${pi/2}"/>
+        <parent link="C_link"/>
+        <child link="CF_ramp_link"/>
+        <axis xyz="0.0 0.0 0.0"/>
+    </joint>
+    
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+    <gazebo reference="B_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="C_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="D_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="E_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="F_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+</robot>
