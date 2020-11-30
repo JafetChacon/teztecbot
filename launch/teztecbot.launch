@@ -13,10 +13,10 @@
         <param name="ramp_description" command="$(find xacro)/xacro.py $(find teztecbot)/urdf/platform.urdf.xacro" />
         <node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
             args="-param ramp_description -urdf -model platform"/>
-    <!-- Map service-->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find teztecbot)/map/map.yaml"/>
-    <node pkg="tf" type="static_transform_publisher" name="odom_to_map"
-        args="0 0 0 0 0 0  /map /odom 1" />
+        <!-- Map service-->
+        <node pkg="map_server" name="map_server" type="map_server" args="$(find teztecbot)/map/map.yaml"/>
+        <node pkg="tf" type="static_transform_publisher" name="odom_to_map"
+            args="0 0 0 0 0 0  /map /odom 1" />
     </group>
     
     
